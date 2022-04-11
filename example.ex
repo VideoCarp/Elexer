@@ -1,4 +1,10 @@
-use elexer
+# Make sure to include the following in your mix.exs file.
+# def deps do
+#    [{:elexer, "~>0.0.2"}]
+# end
+# And run the file with `mix run example.ex`
+
+# Make sure to also read the docs at https://hexdocs.pm/elexer
 defmodule Handlers do
     def alphanumeric(character) do
         character >= "a" && character <= "z"
