@@ -1,4 +1,5 @@
 use elexer
+# interfacing
 defmodule Handlers do
     def alphanumeric(character) do
         character >= "a" && character <= "z"
@@ -23,8 +24,6 @@ defmodule Handlers do
         end
     end
 end
-# current, tokenstream, len, input_str, singlecharh, multicharh, otherwise, tmp
+# len, input_str, singlecharh, multicharh, otherwise (optional)
 inp = IO.gets("Input your program: ")
-Lexer.lex(0, [], String.length(inp), inp, &Handlers.singlechars/1, &Handlers.multichars/1, &Lexer.nothing/0, "") |> IO.inspect()
-# Needs prettification. So, we may define a macro to make this look something like: 
-# Lexer.lex(&Handlers.singlechars/1, &Handlers.multichars/1, &Lexer.nothing/0)
+Lexer.lex(String.length(inp), inp, &Handlers.singlechars/1, &Handlers.multichars/1) |> IO.inspect()
