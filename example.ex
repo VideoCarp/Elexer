@@ -17,7 +17,7 @@ defmodule Proj.MixProject do # name it anything, too
 end
 """
 
-import Lexer
+
 defmodule Handlers do
     def alphanumeric(character) do
         character >= "a" && character <= "z"
@@ -44,4 +44,4 @@ defmodule Handlers do
 end
 # len, input_str, singlecharh, multicharh, otherwise (optional)
 inp = IO.gets("Input your program: ")
-Lexer.lex(inp, &Handlers.singlechars/1, &Handlers.multichars/1) |> IO.inspect()
+Elexer.lex(inp, &Handlers.singlechars/1, &Handlers.multichars/1) |> IO.inspect()
