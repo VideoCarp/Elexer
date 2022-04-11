@@ -1,17 +1,11 @@
 defmodule Lexer do
     def nothing do
     end
-    # lex int, list, int, string -> [{string, atom}]
-    def uglex(current \\ 0, tokenstream \\ [], len, input_str, singlecharh, multicharh, otherwise, tmp) do
+    # -> [{string, atom}]
+    def uglex(current, tokenstream, len, input_str, singlecharh, multicharh, otherwise, tmp) do
         char = String.at(input_str, current)
         {boolch, tag} = singlecharh.(char)
-        {boolmh0, tagm0} = multicharh.(char)
-        {boolmh, tagm} = 
-            unless tagm0 == :pass do
-                {boolmh0, tagm0}
-            else
-                {false, tagm0}
-            end
+        {boolmh, _} = multicharh.(char) # We don't need tagm here. We'll get it later.
         unless current >= len do
             cond do
 
@@ -24,7 +18,8 @@ defmodule Lexer do
                     if tmp == "" do
                         uglex(current + 1, [{char, tag} | tokenstream], len, input_str, singlecharh, multicharh, otherwise, "")
                     else
-                        uglex(current, [{tmp, tagm} | tokenstream], len, input_str, singlecharh, multicharh, otherwise, "")
+                        {_, tagm1} = multicharh.(String.at(input_str, current - 1))
+                        uglex(current, [{tmp, tagm1} | tokenstream], len, input_str, singlecharh, multicharh, otherwise, "")
                     end
 
 
@@ -38,6 +33,7 @@ defmodule Lexer do
         end
     end
     # To save you from uglex.
+    # String, function, function, [function] -> [{string, atom}]
     def lex(input_str, singlecharh, multicharh, otherwise \\ &nothing/0) do
         uglex(0, [], String.length(input_str), input_str, singlecharh, multicharh, otherwise, "")
     end
