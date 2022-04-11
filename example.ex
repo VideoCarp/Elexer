@@ -1,10 +1,23 @@
 # Make sure to include the following in your mix.exs file.
-# def deps do
-#    [{:elexer, "~>0.0.2"}]
-# end
-# And run the file with `mix run example.ex`
+"""
+defmodule Proj.MixProject do # name it anything, too
+    use Mix.Project
+    def depends() do
+        [{:elexer, "~>0.0.2"}]
+    end
+    def project do
+        [
+            app: :proj, # name this anything
+            version: "0.0.1",
+            elixir: "~> 1.13.4",
+            deps: depends(),
+        ]
+    end
+    def application, do: []
+end
+"""
 
-# Make sure to also read the docs at https://hexdocs.pm/elexer
+import Lexer
 defmodule Handlers do
     def alphanumeric(character) do
         character >= "a" && character <= "z"
